@@ -24,7 +24,7 @@
 
           <div class="form-group has-icon">
             <i class="fa fa-mobile fa-form-icon" aria-hidden="true"></i>
-              <input type="text" class="form-control" placeholder="Your Mobile Number" name="mobile" [(ngModel)]="employee.mobile"
+              <input type="text" class="form-control" placeholder="Your Mobile Number" name="mobile" [(ngModel)]="employee.mobile_no"
                 #mobile="ngModel" minlength="10" maxlength="10" pattern="^(\(?\+?[0-9]*\)?)?[0-9_\(\)]*$"
                 [ngClass]="{'is-invalid' : (mobile.invalid && (mobile.dirty || mobile.touched))}" required>
               <div style="margin-top:-30px" class="help-block"

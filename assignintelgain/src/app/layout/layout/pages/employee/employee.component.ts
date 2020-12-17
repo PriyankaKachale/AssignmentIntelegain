@@ -17,6 +17,7 @@ export class EmployeeComponent implements OnInit {
   public addbtn = false;
   public employee: Employee = new Employee();
   public employeeList: Employee[];
+  
   constructor(private layout : LayoutComponent, private http: ServiceService, private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -35,7 +36,6 @@ export class EmployeeComponent implements OnInit {
     this.updateEmployee(emp);
     }
     else{
-      console.log(this.employee);
     this.http.post('employee', this.employee, options).subscribe(res => {
       if (res.success == true) {
         emp.reset();
@@ -54,7 +54,6 @@ export class EmployeeComponent implements OnInit {
    getEmployees() {
     const options = new Options();
     this.http.get('employee', options).subscribe(res => {
-      console.log(res);
       this.employeeList = res.data;
     });
   }
@@ -73,27 +72,26 @@ export class EmployeeComponent implements OnInit {
     const options = new Options();
     this.http.put('employee', this.employee, options).subscribe(res => {
          const empupdataData: any = res;
-         if (empupdataData.message == 'email already exist') {
-           this.toastr.error('Email Id Already Exist', 'Employee');
-         } else {
-            if (empupdataData.message == 'userId Duplicate') {
-              this.toastr.error('Employee Id Already Exist', 'Employee');
-            } else if (empupdataData.message == 'employee update successfully') {
+         console.log(empupdataData);
+         
+            if (empupdataData.message == 'employee update successfully') {
               this.toastr.success('Employee Updated Successfully...', 'Employee');
               this.addbtn = false;
               this.employee.id = null;
               emp.reset();
               emp.submitted = false;
+              this.getEmployees();
             }
-         }
+         
 
     });
 
   }
-
-  getEmployeeById(employeeId) {
+  employee_Id:any;
+  getEmployeeById(id) {
+    let employee_Id=id;
       const options = new Options();
-      this.http.get('employee/' + employeeId, options).subscribe(res => {
+      this.http.get('employee/data/'+ employee_Id, options).subscribe(res => {
         this.addbtn = true;
         this.employee = res.data;
       });
