@@ -13,18 +13,6 @@ const userRoutes = require('./api/routes/user');
 const employeeRouter = require('./api/routes/employee');
 //-------------------------------------------------------
 
-// const connection = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     password: 'root',
-//     database: 'assignment'
-// });
-
-// // connect to database
-// connection.connect(function (err) {
-//     if (err) throw err
-//     console.log('You are now connected with mysql database...')
-// });
 
 app.set('views', path.join(__dirname, 'views'));
 
@@ -32,10 +20,6 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-
-
-// we should do the cors code before we send any response back
-// in this case before the routes
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', '*');
@@ -51,15 +35,13 @@ app.use((req, res, next) => {
 app.use('/user', userRoutes);
 app.use('/employee', employeeRouter);
 
-// if we make it past the above, then
 app.use((req, res, next) => {
     const error = new Error('Not Found');
     error.status = 404;
     next(error);
 });
 
-// the advantage of this setup is: 
-// all the error from the whole app will be handeld here
+
 app.use((error, req, res, next) => {
     console.log(error)
     res.status(error.status || 500);

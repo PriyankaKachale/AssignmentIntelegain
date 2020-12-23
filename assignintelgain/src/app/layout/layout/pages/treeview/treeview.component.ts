@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { LayoutComponent } from '../../layout.component';
+import { ServiceService,Options } from 'src/app/service.service';
 
 @Component({
   selector: 'app-treeview',
@@ -6,10 +9,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./treeview.component.css']
 })
 export class TreeviewComponent implements OnInit {
+  public userList:any;
+  public AdminList:any;
 
-  constructor() { }
+  constructor(private layout : LayoutComponent, private http: ServiceService, private toastr: ToastrService) { }
 
   ngOnInit() {
+  
   }
 
+  getAdminData(){
+    const options = new Options();
+    this.http.get('user', options).subscribe(res => {
+      this.userList = res.data;   
+    });
+  }
+  getUserData(){
+    const options = new Options();
+    this.http.get('user/user', options).subscribe(res => {
+      this.userList = res.data;  
+    });
+  }
 }
